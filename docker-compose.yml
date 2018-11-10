@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  flask:
+    build:
+      context: .
+      dockerfile: docker/python/Dockerfile
+    volumes:
+      - .:/app
+    command: ["uwsgi", "--ini", "app.ini"]
+
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    ports:
+      - 5000:80
+    depends_on:
+      - flask
