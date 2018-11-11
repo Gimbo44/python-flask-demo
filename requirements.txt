@@ -10,3 +10,4 @@ psycopg2
 grpcio
 grpcio-tools
 googleapis-common-protos
+grpc

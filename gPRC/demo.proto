@@ -1,0 +1,16 @@
+syntax = "proto2";
+
+package demo;
+
+service Demo {
+    rpc GetModelWithId(ModelId) returns (Model) {}
+}
+
+message ModelId {
+    required int32 id = 1;
+}
+
+message Model {
+    required string text_value = 1;
+    required string select_value = 2;
+}
