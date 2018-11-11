@@ -15,7 +15,7 @@ repository = ModelRepository(
             create_engine("postgresql://%s:%s@%s:%s/%s" % (username, password, host, port, database))
         )
 
-@app.route('/', methods=['POST'])
+@app.route('/model', methods=['POST'])
 def insert_model():
     if request.method == 'POST':
         print(request.form)
@@ -25,7 +25,7 @@ def insert_model():
         )
         return Response(status=200)
 
-@app.route('/list', methods=['GET'])
+@app.route('/model/list', methods=['GET'])
 def get_all_models():
     print(repository.get_all())
     return Response(status=200)
