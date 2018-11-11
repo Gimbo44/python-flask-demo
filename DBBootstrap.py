@@ -1,17 +1,20 @@
 from sqlalchemy import *
 from sqlalchemy.exc import OperationalError
 
+
 username = 'postgres'
 password = 'password'
-# host = 'localhost'
 host = 'postgres'
-# port = '5555'
 port = '5432'
 database = 'test'
 
 
+def get_engine():
+    return create_engine("postgresql://%s:%s@%s:%s/%s" % (username, password, host, port, database))
+
+
 def get_connection_to_database():
-    return (create_engine("postgresql://%s:%s@%s:%s/%s" % (username, password, host, port, database))).connect()
+    return (get_engine()).connect()
 
 
 def verify_database_exists():
@@ -40,22 +43,11 @@ if __name__ == "__main__":
             conn.close()
             print("Database %s created!" % database)
 
-    print("Checking to see if the required tables exist")
-    conn = get_connection_to_database()
-    queryResult = conn.execute("""
-    SELECT 1 AS "exists"
-       FROM   information_schema.tables 
-       WHERE  table_name = 'example_table'
-    """).fetchone()
+    metadata = MetaData(get_engine())
+    table = Table('example', metadata,
+                  Column('id', Integer, primary_key=True),
+                  Column('text_value', String),
+                  Column('select_value', String)
+                  )
 
-    if queryResult is None:
-        conn.execute("""
-        CREATE TABLE example_table (
-          input_value varchar,
-          select_value varchar
-        );
-        """)
-        conn.close()
-        print("Created example_table table in %s" % (database))
-    else:
-        print('Table already exists! You\'re ready to go!')
+    metadata.create_all()
