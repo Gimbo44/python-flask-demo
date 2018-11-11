@@ -17,9 +17,9 @@ _sym_db = _symbol_database.Default()
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='demo.proto',
   package='demo',
-  syntax='proto2',
+  syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\ndemo.proto\x12\x04\x64\x65mo\"\x15\n\x07ModelId\x12\n\n\x02id\x18\x01 \x02(\x05\"1\n\x05Model\x12\x12\n\ntext_value\x18\x01 \x02(\t\x12\x14\n\x0cselect_value\x18\x02 \x02(\t26\n\x04\x44\x65mo\x12.\n\x0eGetModelWithId\x12\r.demo.ModelId\x1a\x0b.demo.Model\"\x00')
+  serialized_pb=_b('\n\ndemo.proto\x12\x04\x64\x65mo\"\x15\n\x07ModelId\x12\n\n\x02id\x18\x01 \x01(\x05\"1\n\x05Model\x12\x12\n\ntext_value\x18\x01 \x01(\t\x12\x14\n\x0cselect_value\x18\x02 \x01(\t26\n\x04\x44\x65mo\x12.\n\x0eGetModelWithId\x12\r.demo.ModelId\x1a\x0b.demo.Model\"\x00\x62\x06proto3')
 )
 
 
@@ -34,7 +34,7 @@ _MODELID = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='id', full_name='demo.ModelId.id', index=0,
-      number=1, type=5, cpp_type=1, label=2,
+      number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -47,7 +47,7 @@ _MODELID = _descriptor.Descriptor(
   ],
   serialized_options=None,
   is_extendable=False,
-  syntax='proto2',
+  syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
@@ -65,14 +65,14 @@ _MODEL = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='text_value', full_name='demo.Model.text_value', index=0,
-      number=1, type=9, cpp_type=9, label=2,
+      number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='select_value', full_name='demo.Model.select_value', index=1,
-      number=2, type=9, cpp_type=9, label=2,
+      number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -85,7 +85,7 @@ _MODEL = _descriptor.Descriptor(
   ],
   serialized_options=None,
   is_extendable=False,
-  syntax='proto2',
+  syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],

@@ -1,3 +1,4 @@
+import os
 import sys
 import grpc
 from dotenv import load_dotenv
@@ -9,7 +10,9 @@ import demo_pb2_grpc
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
 
-if (len(sys.argv) <= 1):
+server_port = os.getenv('GRPC_SERVER_PORT')
+
+if len(sys.argv) <= 1:
     print("""
     Invalid call made to gRPC Client.
     -----------------------------------------------------
@@ -17,11 +20,12 @@ if (len(sys.argv) <= 1):
     """)
     exit(1)
 
-print("Subscribing to channel 50051...")
-channel = grpc.insecure_channel('localhost:50051')
+print("Subscribing to channel %s..." % server_port)
+channel = grpc.insecure_channel('localhost:%s' % server_port)
 
 demoStub = demo_pb2_grpc.DemoStub(channel)
-modelIdMessage = demo_pb2.ModelId(sys.argv[1])
+print("Retrieving model: %s" % server_port)
+modelIdMessage = demo_pb2.ModelId(id=int(sys.argv[1]))
 
 print("Messaging server to obtain id for model: %s" % sys.argv[1])
 response = demoStub.GetModelWithId(modelIdMessage)

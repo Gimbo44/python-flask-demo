@@ -13,36 +13,39 @@ from ModelRepository import ModelRepository
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
 
-username = os.getenv('POSTGRES_USERNAME')
-password = os.getenv('POSTGRES_PASSWORD')
-host = os.getenv('POSTGRES_HOST')
-port = int(os.getenv('POSTGRES_PORT'))
-database = os.getenv('POSTGRES_DATABASE')
-server_port = os.getenv('GRPC_SERVER_PORT')
-
 
 class ModelService(demo_pb2_grpc.DemoServicer):
 
-    def __init__(self):
-        self.repository = ModelRepository(
-            create_engine("postgresql://%s:%s@%s:%s/%s" % (username, password, host, port, database))
+    def GetModelWithId(self, request: demo_pb2.ModelId, context):
+        repository = ModelRepository(
+            create_engine("postgresql://%s:%s@%s:%s/%s" % (
+                    os.getenv('POSTGRES_USERNAME'),
+                    os.getenv('POSTGRES_PASSWORD'),
+                    os.getenv('POSTGRES_HOST'),
+                    os.getenv('POSTGRES_PORT'),
+                    os.getenv('POSTGRES_DATABASE')
+                )
+            )
         )
 
-    def GetModelWithId(self, request: demo_pb2.ModelId, context):
-        response = demo_pb2.Model
-        model = self.repository.get_model_for_id(request.id)
+        response = demo_pb2.Model()
+        model = repository.get_model_for_id(request.id)
         response.text_value = model.text_value
         response.select_value = model.select_value
+        return response
 
 
 if __name__ == '__main__':
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=1))
+
+    server_port = os.getenv('GRPC_SERVER_PORT')
+
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     demo_pb2_grpc.add_DemoServicer_to_server(
         ModelService(),
         server
     )
 
-    server.add_insecure_port("[::]: %s" % server_port)
+    server.add_insecure_port("[::]:%s" % server_port)
     server.start()
 
     try:

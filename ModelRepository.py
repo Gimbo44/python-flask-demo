@@ -21,9 +21,5 @@ class ModelRepository(object):
         conn = self.engine.connect()
         result = conn.execute(
             "SELECT * FROM example WHERE id=%s;" % model_id
-        )
-        models = []
-        for row in result.fetchall():
-            models.append(Model(row['text_value'], row['select_value']))
-
-        return models
+        ).first()
+        return Model(result['text_value'], result['select_value'])
