@@ -1,16 +1,22 @@
+import os
 import time
 from concurrent import futures
 import grpc
 from sqlalchemy import *
-
+from dotenv import load_dotenv
+from pathlib import Path
 from gPRC import demo_pb2, demo_pb2_grpc
 from ModelRepository import ModelRepository
 
-username = 'postgres'
-password = 'password'
-host = 'postgres'
-port = '5432'
-database = 'test'
+env_path = Path('.') / '../.env'
+load_dotenv(dotenv_path=env_path)
+
+username = os.getenv('POSTGRES_USERNAME')
+password = os.getenv('POSTGRES_PASSWORD')
+host = os.getenv('POSTGRES_HOST')
+port = os.getenv('POSTGRES_PORT')
+database = os.getenv('POSTGRES_DATABASE')
+server_port = os.getenv('GRPC_SERVER_PORT')
 
 
 class ModelService(demo_pb2_grpc.DemoServicer):
@@ -33,7 +39,7 @@ demo_pb2_grpc.add_DemoServicer_to_server(
     server
 )
 
-server.add_insecure_port('[::]: 50051')
+server.add_insecure_port("[::]: %s" % server_port)
 server.start()
 
 try:
