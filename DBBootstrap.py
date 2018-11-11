@@ -1,8 +1,6 @@
 from sqlalchemy import *
 from sqlalchemy.exc import OperationalError
 
-import os
-
 username = 'postgres'
 password = 'password'
 # host = 'localhost'
