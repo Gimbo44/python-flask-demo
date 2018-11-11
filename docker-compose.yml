@@ -9,6 +9,16 @@ services:
       - .:/app
     command: ["uwsgi", "--ini", "app.ini"]
 
+  grpc:
+    build:
+      context: .
+      dockerfile: docker/python/Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - ${GRPC_SERVER_PORT}:${GRPC_SERVER_PORT}
+    command: ["python3", "GRPCServer.py"]
+
   nginx:
     build:
       context: .

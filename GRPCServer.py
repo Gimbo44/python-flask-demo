@@ -5,16 +5,18 @@ import grpc
 from sqlalchemy import *
 from dotenv import load_dotenv
 from pathlib import Path
-from gPRC import demo_pb2, demo_pb2_grpc
+
+import demo_pb2
+import demo_pb2_grpc
 from ModelRepository import ModelRepository
 
-env_path = Path('.') / '../.env'
+env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
 
 username = os.getenv('POSTGRES_USERNAME')
 password = os.getenv('POSTGRES_PASSWORD')
 host = os.getenv('POSTGRES_HOST')
-port = os.getenv('POSTGRES_PORT')
+port = int(os.getenv('POSTGRES_PORT'))
 database = os.getenv('POSTGRES_DATABASE')
 server_port = os.getenv('GRPC_SERVER_PORT')
 
@@ -33,17 +35,19 @@ class ModelService(demo_pb2_grpc.DemoServicer):
         response.select_value = model.select_value
 
 
-server = grpc.server(futures.ThreadPoolExecutor(max_workers=1))
-demo_pb2_grpc.add_DemoServicer_to_server(
-    ModelService(),
-    server
-)
+if __name__ == '__main__':
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=1))
+    demo_pb2_grpc.add_DemoServicer_to_server(
+        ModelService(),
+        server
+    )
 
-server.add_insecure_port("[::]: %s" % server_port)
-server.start()
+    server.add_insecure_port("[::]: %s" % server_port)
+    server.start()
 
-try:
-    while True:
-        time.sleep(2000)
-except KeyboardInterrupt:
-    server.stop(0)
+    try:
+        while True:
+            print('Listening on port for requests %s...' % server_port)
+            time.sleep(2000)
+    except KeyboardInterrupt:
+        server.stop(0)
