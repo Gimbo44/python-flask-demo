@@ -16,3 +16,29 @@ was a limited factor.
 ### Setup:
 
 ----
+
+Run the following commands
+1. `cp .env.dist .env`
+    - necessary to get a live copy of the environment files (change as appropriate)
+
+2. `docker-compose build`
+3. `python3 DBBootstrap.py`
+    - Needed in order to bootstrap the db, need to have the correct tables in place
+before trying to boot up the docker instances
+4. `docker-compose up`
+    - To boot up the docker instances
+
+### gRPC integration:
+
+----
+The 'remote' client will actually be running on your local machine while the other 
+services run on dockerized containers
+
+Before being able to run the local, you'll need to install python3 requirements.
+(You'll need pip for python 3, if on Ubuntu you can install it by running `sudo apt install python3-pip`)
+Run the following to install the dependencies:
+`pip3 install -r requirements.txt`
+
+In order to query the backend to get information of saved data, run the following command:
+
+`python3 GRPCClient.py <model id>`
