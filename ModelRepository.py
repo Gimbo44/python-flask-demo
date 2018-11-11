@@ -17,10 +17,10 @@ class ModelRepository(object):
         )
         conn.close()
 
-    def get_all(self):
+    def get_model_for_id(self, model_id: int) -> Model:
         conn = self.engine.connect()
         result = conn.execute(
-            "SELECT * FROM example;"
+            "SELECT * FROM example WHERE id=%s;" % model_id
         )
         models = []
         for row in result.fetchall():
