@@ -16,7 +16,6 @@ was a limited factor.
 ### Setup:
 
 ----
-
 Run the following commands
 1. `cp .env.dist .env`
     - necessary to get a live copy of the environment files (change as appropriate)
@@ -42,3 +41,15 @@ Run the following to install the dependencies:
 In order to query the backend to get information of saved data, run the following command:
 
 `python3 GRPCClient.py <model id>`
+
+
+### frontend Setup
+
+---
+Open `demopage.html` in your favourite browser.
+Its not the expected react component of the project but due to
+time limitations I was forced to keep things "simple".
+
+ - Note, if you changed the port number of the flask service you'll
+ need to make alterations to the url inside the `demopage.html` file.
+
